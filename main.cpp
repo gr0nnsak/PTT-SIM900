@@ -1,10 +1,12 @@
-#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <pa_linux_alsa.h>
 #include "portaudio.h"
 
 #define SAMPLE_RATE 44100
 
 #define paErrChk(ret) { paAssert((ret), __FILE__, __LINE__); }
-inline void paAssert(PaError *err, const char *file, int line, bool abort=true)
+inline void paAssert(PaError err, const char *file, int line, bool abort=true)
 {
 	if(err != paNoError)
 	{
@@ -22,25 +24,12 @@ typedef int PaStreamCallback(
 			void *userData);
 
 
-static paTestData data;
+//static PaTestData data;
 PaStream *stream;
 
 int main()
 {
-/*	PaError *err;
-
-	// Initialize
-	if(Pa_Initialize() == paNoError)
-	{
-		printf("PortAudio operative!\n");		
-	}
-	else
-	{
-		printf("PortAudio error: %s\n", Pa_GetErrorText(err));
-		return EXIT_FAILURE;
-	}
-*/
-	paAssert(Pa_Initialize());
+	paErrChk(Pa_Initialize());
 	printf("PortAudio operative!\n");
 
 	// Open an audio I/O stream
@@ -58,7 +47,6 @@ int main()
 	{
 		printf("PortAudio error: %s\n", Pa_GetErrorText(err));
 	}
-*/
 
 	paAssert(Pa_OpenDefaultStream(
 				&stream,
@@ -76,7 +64,7 @@ int main()
 	// save recording to file
 	// stage audiofile
 	// transfer audifile to shield
-	
+*/	
 	// Terminate program
 /*	if(Pa_Terminate() == paNoError)
 	{
@@ -88,7 +76,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 */
-	paAssert(Pa_Terminate());
+	paErrChk(Pa_Terminate());
 	printf("PortAudio terminated successfully!\n");
 
 	return EXIT_SUCCESS;
